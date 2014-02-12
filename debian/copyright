@@ -10,13 +10,13 @@ and is currently maintained by Santiago Vila <sanvila@debian.org>.
 
 The GNU sources for this release were obtained from
 
-http://ftp.gnu.org/gnu/m4/m4-1.4.14.tar.bz2
+http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.bz2
 
 The changes were very minimal - merely adding support for the Debian
 package maintenance scheme, by adding various debian/* files.
 
 
-Program Copyright (C) 1989-2010 Free Software Foundation, Inc.
+Program Copyright (C) 1989-2011 Free Software Foundation, Inc.
 Modifications for Debian Copyright (C) 1994 Ian Jackson.
 
 This program is free software; you can redistribute it and/or modify
@@ -31,7 +31,7 @@ General Public License for more details.
 
 
 M4 manual (m4.info) Copyright (C) 1989, 1990, 1991, 1992, 1993, 1994,
-2004, 2005, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
+2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,

@@ -4,7 +4,7 @@ X-Debian-version: 1.4.13-2
 
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
-@@ -1301,8 +1301,7 @@
+@@ -1458,8 +1458,7 @@
  	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(infodir)'"; \
  	  $(INSTALL_DATA) $$files "$(DESTDIR)$(infodir)" || exit $$?; done
  	@$(POST_INSTALL)

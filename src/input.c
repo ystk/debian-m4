@@ -1,7 +1,6 @@
 /* GNU m4 -- A simple macro processor
 
-   Copyright (C) 1989, 1990, 1991, 1992, 1993, 1994, 2004, 2005, 2006,
-   2007, 2008, 2009, 2010 Free Software Foundation, Inc.
+   Copyright (C) 1989-1994, 2004-2011 Free Software Foundation, Inc.
 
    This file is part of GNU M4.
 
@@ -377,7 +376,7 @@ pop_input (void)
 }
 
 /*-------------------------------------------------------------------.
-| To switch input over to the wrapup stack, main () calls pop_wrapup |
+| To switch input over to the wrapup stack, main calls pop_wrapup    |
 | ().  Since wrapup text can install new wrapup text, pop_wrapup ()  |
 | returns false when there is no wrapup text on the stack, and true  |
 | otherwise.                                                         |
@@ -614,14 +613,14 @@ match_input (const char *s, bool consume)
   if (s[1] == '\0')
     {
       if (consume)
-        (void) next_char ();
+        next_char ();
       return true;                      /* short match */
     }
 
-  (void) next_char ();
-  for (n = 1, t = s++; (ch = peek_input ()) == to_uchar (*s++); )
+  next_char ();
+  for (n = 1, t = s++; peek_input () == to_uchar (*s++); )
     {
-      (void) next_char ();
+      next_char ();
       n++;
       if (*s == '\0')           /* long match */
         {
@@ -883,7 +882,7 @@ next_token (token_data *td, int *line)
       while ((ch = peek_input ()) != CHAR_EOF && (isalnum (ch) || ch == '_'))
         {
           obstack_1grow (&token_stack, ch);
-          (void) next_char ();
+          next_char ();
         }
       type = TOKEN_WORD;
     }

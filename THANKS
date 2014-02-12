@@ -24,6 +24,7 @@ Bob Badour              bob@badour.net
 Bob Proulx              bob@proulx.com
 Brendan Kehoe           brendan@cygnus.com
 Bruno Haible            bruno@clisp.org
+Carlo Teubner           carlo.teubner@gmail.com
 Cesar Strauss           cestrauss@gmail.com
 Chris McGuire           chris@wso.net
 Chris Penev             xpenev@gmail.com
@@ -43,6 +44,7 @@ Frank Schwidom          schwidom@impernet.de
 Gary V. Vaughan         gary@gnu.org
 Geoff Russell           grussell@guest.adelaide.edu.au
 Giovanni Toffetti       toffettg@lu.unisi.ch
+Giuseppe Scrivano       gscrivano@gnu.org
 Greg A. Woods           woods@web.apc.org
 Hal Peterson            hrp@pecan.cray.com
 Hoang Uong              hoang@ornews.intel.com
@@ -78,9 +80,11 @@ Matthew Woehlke         mw_triad@users.sourceforge.net
 Matthias Rabe           rabe@mathematik.uni-bielefeld.de
 Michael Fetterman       mafetter@ichips.intel.com
 Michael L. Welcome      welcome@bigbird.llnl.gov
+Mike Dupont             jamesmikedupont@googlemail.com
 Mike Frysinger          vapier@gentoo.org
 Mike Lijewski           lijewski@theory.tc.cornell.edu
 Mike R.                 mroberge@aol.com
+Mike Stump              mikestump@comcast.net
 Mikhail Teterin         Mikhail.Teterin@murex.com
 Nelson H. F. Beebe      beebe@math.utah.edu
 Nick S. Kanakakorn      skanan@otl.scu.edu
@@ -93,6 +97,7 @@ Paul Eggert             eggert@cs.ucla.edu
 Pete Chown              pete.chown@dale.dircon.co.uk
 Pierre Gaumond          gaumondp@ere.umontreal.ca
 Pierre Mathieu          mathieu@geod.emr.ca
+Rainer Tammer           tammer@tammer.net
 Ralf Wildenhues         Ralf.Wildenhues@gmx.de
 René Seindal            seindal@diku.dk
 Richard A Nelson        cowboy@vnet.ibm.com
@@ -105,6 +110,7 @@ Ronny Peine             RonnyPeine@gmx.de
 Sami Liedes             sliedes@cc.hut.fi
 Santiago Vila           sanvila@debian.org
 Scott Bartram           deneb!scottb
+Scott McCreary          scottmc2@gmail.com
 Sergey Poznyakoff       gray@gnu.org.ua
 Simon Leinen            simon@lia.di.epfl.ch
 Skip Montanaro          skip@automatrix.com
@@ -114,6 +120,7 @@ Steve Williamson        willy@uinpla.npl.uiuc.edu
 Steven Augart           saugart@yahoo.com
 Thomas Klausner         tk@giga.or.at
 Thorsten Ohl            ohl@physics.harvard.edu
+Todd Rinaldo            toddr@cpanel.net
 Tom G. Christensen      tgc@jupiterrise.com
 Tom McConnell           tmcconne@sedona.intel.com
 Tom Quinn               trq@dionysos.thphys.ox.ac.uk
@@ -130,8 +137,7 @@ Local Variables:
 coding: utf-8
 End:
 
-Copyright (C) 2000, 2006, 2007, 2008, 2009, 2010 Free Software
-Foundation, Inc.
+Copyright (C) 2000, 2006-2011 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or

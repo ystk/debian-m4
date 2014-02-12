@@ -1,5 +1,5 @@
-# posix_spawn.m4 serial 4
-dnl Copyright (C) 2008, 2009, 2010 Free Software Foundation, Inc.
+# posix_spawn.m4 serial 8
+dnl Copyright (C) 2008-2011 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -13,9 +13,9 @@ AC_DEFUN([gl_POSIX_SPAWN],
 AC_DEFUN([gl_POSIX_SPAWN_BODY],
 [
   AC_REQUIRE([gl_SPAWN_H_DEFAULTS])
-  AC_CHECK_FUNCS_ONCE([posix_spawn])
-  dnl Assume that when the main function exists, all the others are
-  dnl available as well.
+  AC_REQUIRE([gl_HAVE_POSIX_SPAWN])
+  dnl Assume that when the main function exists, all the others,
+  dnl except posix_spawnattr_{get,set}sched*, are available as well.
   dnl AC_CHECK_FUNCS_ONCE([posix_spawnp])
   dnl AC_CHECK_FUNCS_ONCE([posix_spawn_file_actions_init])
   dnl AC_CHECK_FUNCS_ONCE([posix_spawn_file_actions_addclose])
@@ -27,10 +27,6 @@ AC_DEFUN([gl_POSIX_SPAWN_BODY],
   dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_setflags])
   dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_getpgroup])
   dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_setpgroup])
-  dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_getschedparam])
-  dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_setschedparam])
-  dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_getschedpolicy])
-  dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_setschedpolicy])
   dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_getsigdefault])
   dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_setsigdefault])
   dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_getsigmask])
@@ -39,11 +35,40 @@ AC_DEFUN([gl_POSIX_SPAWN_BODY],
   if test $ac_cv_func_posix_spawn = yes; then
     gl_POSIX_SPAWN_WORKS
     case "$gl_cv_func_posix_spawn_works" in
-      *yes) ;;
+      *yes)
+        dnl Assume that these functions are available if POSIX_SPAWN_SETSCHEDULER
+        dnl evaluates to nonzero.
+        dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_getschedpolicy])
+        dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_setschedpolicy])
+        AC_CACHE_CHECK([whether posix_spawnattr_setschedpolicy is supported],
+          [gl_cv_func_spawnattr_setschedpolicy],
+          [AC_EGREP_CPP([POSIX scheduling supported], [
+#include <spawn.h>
+#if POSIX_SPAWN_SETSCHEDULER
+ POSIX scheduling supported
+#endif
+],
+             [gl_cv_func_spawnattr_setschedpolicy=yes],
+             [gl_cv_func_spawnattr_setschedpolicy=no])
+          ])
+        dnl Assume that these functions are available if POSIX_SPAWN_SETSCHEDPARAM
+        dnl evaluates to nonzero.
+        dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_getschedparam])
+        dnl AC_CHECK_FUNCS_ONCE([posix_spawnattr_setschedparam])
+        AC_CACHE_CHECK([whether posix_spawnattr_setschedparam is supported],
+          [gl_cv_func_spawnattr_setschedparam],
+          [AC_EGREP_CPP([POSIX scheduling supported], [
+#include <spawn.h>
+#if POSIX_SPAWN_SETSCHEDPARAM
+ POSIX scheduling supported
+#endif
+],
+             [gl_cv_func_spawnattr_setschedparam=yes],
+             [gl_cv_func_spawnattr_setschedparam=no])
+          ])
+        ;;
       *) REPLACE_POSIX_SPAWN=1 ;;
     esac
-  else
-    HAVE_POSIX_SPAWN=0
   fi
 ])
 
@@ -266,7 +291,7 @@ parent_main (void)
   if (fflush (fp) || fclose (fp))
     {
       perror ("cannot prepare data file");
-      return 1;
+      return 2;
     }
 
   /* Avoid reading from our stdin, as it could block.  */
@@ -284,7 +309,7 @@ parent_main (void)
         posix_spawn_file_actions_destroy (&actions);
       errno = err;
       perror ("subprocess failed");
-      return 1;
+      return 3;
     }
   posix_spawn_file_actions_destroy (&actions);
   status = 0;
@@ -293,13 +318,13 @@ parent_main (void)
   if (!WIFEXITED (status))
     {
       fprintf (stderr, "subprocess terminated with unexpected wait status %d\n", status);
-      return 1;
+      return 4;
     }
   exitstatus = WEXITSTATUS (status);
   if (exitstatus != 0)
     {
       fprintf (stderr, "subprocess terminated with unexpected exit status %d\n", exitstatus);
-      return 1;
+      return 5;
     }
   return 0;
 }
@@ -314,7 +339,7 @@ child_main (void)
       && memcmp (buf, "Halle Potta", 11) == 0)
     return 0;
   else
-    return 2;
+    return 8;
 }
 
 static void

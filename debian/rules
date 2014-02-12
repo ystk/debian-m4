@@ -1,84 +1,21 @@
 #!/usr/bin/make -f
 
 package = m4
-docdir = debian/tmp/usr/share/doc/$(package)
 
-CFLAGS = -g -Wall
-STRIP = true
+export DEB_BUILD_MAINT_OPTIONS=hardening=-format
 
-ifeq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-  CFLAGS += -O2
-endif
-ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
-  STRIP = strip --remove-section=.comment --remove-section=.note
-endif
+%:
+	dh $@
 
-export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-
-ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
-  confflags += --build $(DEB_HOST_GNU_TYPE)
-else
-  confflags += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
-endif
-
-build:
-	./configure $(confflags) --prefix=/usr
-	$(MAKE) CFLAGS="$(CFLAGS)"
-ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
-  ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
-	$(MAKE) check
-  endif
-endif
-	touch build
-
-clean:
-	rm -f build
+override_dh_auto_clean:
 	[ ! -f Makefile ] || $(MAKE) distclean
-	rm -f `find . -name "*~"`
-	rm -rf debian/tmp debian/files* core debian/substvars
+	rm -f doc/*.html
 
-binary-indep: build
-	rm -rf debian/tmp
-	install -d debian/tmp/DEBIAN $(docdir)-doc \
-		debian/tmp/usr/share/doc-base
-	install -m 644 debian/m4-doc debian/tmp/usr/share/doc-base
+override_dh_installdocs:
 	cd doc && texi2html -split_chapter $(package).texinfo
-	mv doc/*.html $(docdir)-doc
-	ln -s $(package)_toc.html $(docdir)-doc/index.html
-	cp -p debian/copyright $(docdir)-doc
-	cp -p ChangeLog $(docdir)-doc/changelog
-	cp -p debian/changelog $(docdir)-doc/changelog.Debian
-	cd $(docdir)-doc && gzip -9 changelog changelog.Debian
-	dpkg-gencontrol -p$(package)-doc
-	cd debian/tmp && \
-		md5sum `find * -type f ! -regex "DEBIAN/.*"` > DEBIAN/md5sums
-	chown -R 0:0 debian/tmp
-	chmod -R go=rX debian/tmp
-	dpkg --build debian/tmp ..
+	dh_installdocs -i doc/*.html
+	dh_installdocs -a NEWS README TODO THANKS
 
-binary-arch: build
-	rm -rf debian/tmp
-	install -d debian/tmp/DEBIAN $(docdir)/examples
-	cd debian/tmp && install -d usr/bin
-	$(MAKE) install prefix=`pwd`/debian/tmp/usr
-	cp -p debian/changelog $(docdir)/changelog.Debian
-	cp -p ChangeLog $(docdir)/changelog
-	cp -p NEWS README TODO THANKS debian/copyright $(docdir)
-	cp -p examples/* $(docdir)/examples
-	rm -f $(docdir)/examples/Makefile*
-	cd $(docdir) && gzip -9 changelog changelog.Debian
-	gzip -9 debian/tmp/usr/share/info/*
-	gzip -r9 debian/tmp/usr/share/man
-	$(STRIP) debian/tmp/usr/bin/*
-	dpkg-shlibdeps debian/tmp/usr/bin/*
-	dpkg-gencontrol -p$(package)
-	cd debian/tmp && \
-		md5sum `find * -type f ! -regex "DEBIAN/.*"` > DEBIAN/md5sums
-	chown -R 0:0 debian/tmp
-	chmod -R go=rX debian/tmp
-	dpkg --build debian/tmp ..
-
-binary: binary-indep binary-arch
-
-.PHONY: binary binary-arch binary-indep clean
+override_dh_link:
+	dh_link -i usr/share/doc/$(package)-doc/$(package)_toc.html \
+		usr/share/doc/$(package)-doc/index.html

@@ -1,7 +1,6 @@
 /* GNU m4 -- A simple macro processor
 
-   Copyright (C) 1989, 1990, 1991, 1992, 1993, 1994, 2006, 2007, 2008,
-   2009, 2010 Free Software Foundation, Inc.
+   Copyright (C) 1989-1994, 2006-2011 Free Software Foundation, Inc.
 
    This file is part of GNU M4.
 
@@ -302,7 +301,7 @@ expand_format (struct obstack *obs, int argc, token_data **argv)
         }
 
       c = *fmt++;
-      if (c > sizeof ok || !ok[c])
+      if (sizeof ok <= c || !ok[c])
         {
           M4ERROR ((warning_status, 0,
                     "Warning: unrecognized specifier in `%s'", f));

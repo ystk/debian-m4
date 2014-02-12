@@ -1,7 +1,7 @@
 /* GNU m4 -- A simple macro processor
 
-   Copyright (C) 1989, 1990, 1991, 1992, 1993, 1994, 2003, 2006, 2007,
-   2008, 2009, 2010 Free Software Foundation, Inc.
+   Copyright (C) 1989-1994, 2003, 2006-2011 Free Software Foundation,
+   Inc.
 
    This file is part of GNU M4.
 
@@ -374,10 +374,7 @@ symtab_debug (void)
       if (s == NULL)
         xprintf ("Name `%s' is unknown\n", text);
 
-      if (delete)
-        (void) lookup_symbol (text, SYMBOL_DELETE);
-      else
-        (void) lookup_symbol (text, SYMBOL_INSERT);
+      lookup_symbol (text, delete ? SYMBOL_DELETE : SYMBOL_INSERT);
     }
   symtab_print_list (i++);
 }

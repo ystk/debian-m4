@@ -9,13 +9,14 @@ export DEB_BUILD_MAINT_OPTIONS=hardening=-format
 
 override_dh_auto_clean:
 	[ ! -f Makefile ] || $(MAKE) distclean
-	rm -f doc/*.html
+	rm -rf doc/$(package)
 
-override_dh_installdocs:
-	cd doc && texi2html -split_chapter $(package).texinfo
-	dh_installdocs -i doc/*.html
+override_dh_auto_configure:
+	dh_auto_configure -- --disable-rpath
+
+override_dh_installdocs-indep:
+	cd doc && makeinfo --html $(package).texi
+	dh_installdocs -i doc/$(package)/*.html
+
+override_dh_installdocs-arch:
 	dh_installdocs -a NEWS README TODO THANKS
-
-override_dh_link:
-	dh_link -i usr/share/doc/$(package)-doc/$(package)_toc.html \
-		usr/share/doc/$(package)-doc/index.html

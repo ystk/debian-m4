@@ -1,3 +1,60 @@
+m4 (1.4.17-4) unstable; urgency=medium
+
+  * Fixed lintian warning "description-synopsis-starts-with-article".
+  * Fix detection of floating point endianness. Closes: #748361.
+    This should make build tests to work again on ppc64el.
+    Patch from Alan Modra taken from Ubuntu. Thanks a lot.
+    Note: This is really a gnulib problem.
+  * Updated config.guess and config.sub.
+
+ -- Santiago Vila <sanvila@debian.org>  Sat, 17 May 2014 20:00:16 +0200
+
+m4 (1.4.17-3) unstable; urgency=medium
+
+  * Moved texinfo from Build-Depends to Build-Depends-Indep and changed
+    debian/rules accordingly, to ease bootstrapping. Closes: #737935.
+    Patch by Daniel Schepler. Thanks a lot.
+
+ -- Santiago Vila <sanvila@debian.org>  Thu, 06 Mar 2014 16:51:20 +0100
+
+m4 (1.4.17-2) unstable; urgency=medium
+
+  * Dropped --split=chapter from makeinfo invocation when generating HTML,
+    it is not needed and it makes hppa build to fail. Closes: #730840.
+
+ -- Santiago Vila <sanvila@debian.org>  Sun, 01 Dec 2013 13:53:08 +0100
+
+m4 (1.4.17-1) unstable; urgency=low
+
+  * New upstream release.
+  * Switch from texi2html to makeinfo.
+  * Added --disable-rpath to ./configure call.
+  * Dropped 01-no-usr-share-info-dir-gz. debhelper sets AM_UPDATE_INFO_DIR=no.
+  * Dropped 02-workaround-for-binutils-bug-on-mips. This was Bug #519006 and
+    it was fixed three years ago in binutils_2.20.51.20100925-1.
+  * Dropped 03-fix-for-test-readlink. This was a gnulib issue and it was fixed
+    in 2011-03-30 by commit dc44690985e727ac2ef5af783a495a369223ab69.
+  * Dropped 04-fix-for-gnulib-glibc-gets. This was a gnulib issue and it was
+    fixed in 2012-03-29 by commit 66712c23388e93e5c518ebc8515140fa0c807348.
+  * Dropped 99-config-guess-config-sub. Current files are recent enough.
+  * This is again a 0-patch package. Congratulations to all parties involved.
+
+ -- Santiago Vila <sanvila@debian.org>  Sat, 12 Oct 2013 14:10:16 +0200
+
+m4 (1.4.16-5) unstable; urgency=low
+
+  * Added fix for gnulib compilation against eglibc 2.16, which no longer
+    declares gets by default. Closes: #694952.
+
+ -- Santiago Vila <sanvila@debian.org>  Sun, 24 Feb 2013 13:29:12 +0100
+
+m4 (1.4.16-4) unstable; urgency=low
+
+  * Updated config.guess and config.sub.
+  * Link against libsigsegv, recommended by upstream. Closes: #688804.
+
+ -- Santiago Vila <sanvila@debian.org>  Wed, 17 Oct 2012 10:44:20 +0200
+
 m4 (1.4.16-3) unstable; urgency=low
 
   * Switch to dh.

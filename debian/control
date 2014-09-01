@@ -2,15 +2,16 @@ Source: m4
 Section: interpreters
 Priority: standard
 Maintainer: Santiago Vila <sanvila@debian.org>
-Standards-Version: 3.9.2
-Build-Depends: debhelper (>= 9), texi2html (>= 1.82)
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 9.20120311), libsigsegv-dev
+Build-Depends-Indep: texinfo
 Homepage: http://www.gnu.org/software/m4/
 
 Package: m4
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Multi-Arch: foreign
-Description: a macro processing language
+Description: macro processing language
  GNU `m4' is an implementation of the traditional UNIX macro
  processor.  It is mostly SVR4 compatible, although it has some
  extensions (for example, handling more than 9 positional parameters to
